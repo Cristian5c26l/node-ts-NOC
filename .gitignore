@@ -1,0 +1,7 @@
+# Aqui van los directorios y archivos que no queremos que se suban al repositorio
+
+
+node_modules/
+dist/
+
+# Logs
