@@ -1,7 +1,8 @@
+
 import { LogEntity, LogSeverityLevel } from "../../entities/log.entity";
 import { LogRepository } from "../../repository/log.repository";
 
-interface CheckServiceUseCase {
+interface CheckServiceMultipleUseCase {
   execute( url: string ): Promise<boolean>;
 }
 
@@ -9,11 +10,11 @@ interface CheckServiceUseCase {
 type SuccessCallback = (( url: string ) => void) | undefined;
 type ErrorCallback = (( error: string ) => void) | undefined; 
 
-export class CheckService implements CheckServiceUseCase{
+export class CheckServiceMultiple implements CheckServiceMultipleUseCase{
   
   // Inyeccion de dependencias 
   constructor(
-    private readonly logRepository: LogRepository,// Con esta linea, que no es LogRepositoryImpl, nos aseguramos de que logRepository sea una instancia de cualquier repositorio que implemente la clase abstracta LogRepository. No se trabaja directamente con los datasources, sino que se acceden a ellos mediante los repositorios. RECORDAR QUE LOS CASOS DE USOS (COMO EN ESTE CASO CheckService) LLEGAN AL REPOSIORIO Y EL REPOSIORIO LLEGA AL DATASOURCE
+    private readonly logRepository: LogRepository[],// Con esta linea, que no es LogRepositoryImpl, nos aseguramos de que logRepository sea una instancia de cualquier repositorio que implemente la clase abstracta LogRepository. No se trabaja directamente con los datasources, sino que se acceden a ellos mediante los repositorios. RECORDAR QUE LOS CASOS DE USOS (COMO EN ESTE CASO CheckService) LLEGAN AL REPOSIORIO Y EL REPOSIORIO LLEGA AL DATASOURCE
     private readonly successCallback: SuccessCallback,
     private readonly errorCallback: ErrorCallback 
   ) {}
@@ -22,6 +23,12 @@ export class CheckService implements CheckServiceUseCase{
   
   // Dado que successCallback y errorCallback son privados, no se pueden acceder desde fuera de la clase. Para acceder a ellas se deben usar desde un metodo como execute el cual viva en la misma clase.
   // Dado que successCallback y errorCallback son readonly, no se pueden modificar ni desde fuera de la clase ni desde dentro de la clase. Solo se pueden modificar en el constructor de la clase.
+
+  private callLogs( log: LogEntity ) {
+    this.logRepository.forEach(logRepository => {
+      logRepository.saveLog(log);
+    });
+  }
 
   public async execute( url: string ): Promise<boolean> {
 
@@ -46,7 +53,8 @@ export class CheckService implements CheckServiceUseCase{
         message: `Service ${ url } working`, 
         origin: 'check-service.ts', 
       });
-      this.logRepository.saveLog( newLog );
+      this.callLogs(newLog);
+      
 
       // Uso de la inyeccion de dependencia
       this.successCallback && this.successCallback( url );// successCallback podria ser ya una funcion que haga algo más profundo como guardar en una base de datos que el servicio esta ok.
@@ -65,7 +73,7 @@ export class CheckService implements CheckServiceUseCase{
         origin: 'check-service.ts',
       });
 
-      this.logRepository.saveLog( newLog );
+      this.callLogs(newLog);
 
       this.errorCallback && this.errorCallback( errorMessage );
       return false;
