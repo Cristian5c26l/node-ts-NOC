@@ -17,7 +17,7 @@ export class LogEntity {
   // level es sobre nivel de severidad
   public level: LogSeverityLevel;// level es de tipo LogSeverityLevel, por lo que level solo puede ser low, medium o high
   public message: string;
-  public timestamp: Date;// createdAt
+  public timestamp?: Date;// createdAt
   public origin: string;// origin contiene el nombre del archivo donde se generó un nuevo log (una nueva instancia de LogEntity)
 
   // La clase LogEntity tiene un constructor que recibe un objeto literal de tipo LogEntityOptions, es decir, un objeto que tenga las propiedades level, message, timestamp (propiedad opcional) y origin
@@ -33,11 +33,13 @@ export class LogEntity {
   // json contiene algo como esto: {"level":"low","message":"Hola mundo","timestamp":"2021-08-18T03:00:00.000Z"} (es un string)
   static fromJson = (json: string): LogEntity => {
     // const literalObject = JSON.parse(json);// Convierte el string a un objeto de JS
+    // console.log({json});// Si json es una cadena vacia, puede generarse el error sintactico Unexpected end of JSON input en JSON.parse(json)
+    json = ( json === '' ) ? '{}': json;
     const { level, message, timestamp, origin } = JSON.parse(json);// Convierte el string a un objeto de JavaScript. JSON.parse es lo opuesto a JSON.stringify
     const log = new LogEntity({
       level,// level: level
       message,// message: message
-      timestamp, 
+      timestamp: new Date(timestamp), 
       origin,
     });// Crea una instancia de LogEntity
     //log.timestamp = new Date(timestamp);// Le asigna la fecha que se guardó en el archivo

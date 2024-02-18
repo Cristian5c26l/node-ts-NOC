@@ -11,6 +11,8 @@ export class MongoLogDatasource implements LogDatasource{
     // Creación de documento con forma LogModel para que se grabe en coleccion "Logs" (crea y guarda) 
     const newLog = await LogModel.create(log);
 
+    console.log('Mongo log created:', newLog.id);
+
     // En este punto, newLog es una instancia de nuestro modelo de mongo LogModel.
 
     // Para ASEGURARSE de que se graba esa insercion de dicho documento en colección Logs, es necesario ejecutar el metodo save.

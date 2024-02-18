@@ -93,25 +93,25 @@ export class Server {
     //   }
     // );
 
-    CronService.createJob(
-      '*/5 * * * * *', 
-      // () => console.log('Tarea ejecutada cada 5 segundos', new Date())
-      () => {
-
-        // new CheckService().execute('https://google.com');
-        // new CheckService().execute( 'http://localhost:3000' );
-        
-
-        new CheckServiceMultiple(
-          [fsLogRepository, mongoDBLogRepository, postgreSQLLogRepository],
-          (url: string) => console.log(`${url} is ok`),// Con inyectar esta dependencia, se busca que siempre separar responsabilidades 
-          (error: string) => console.log(error)
-        // ).execute( 'https://google.com' );
-        ).execute( 'https://github.com' );
-        // ).execute( 'http://localhost:3000' );
-
-      }
-    );
+    // CronService.createJob(
+    //   '*/5 * * * * *', 
+    //   // () => console.log('Tarea ejecutada cada 5 segundos', new Date())
+    //   () => {
+    //
+    //     // new CheckService().execute('https://google.com');
+    //     // new CheckService().execute( 'http://localhost:3000' );
+    //     
+    //
+    //     new CheckServiceMultiple(
+    //       [fsLogRepository, mongoDBLogRepository, postgreSQLLogRepository],
+    //       (url: string) => console.log(`${url} is ok`),// Con inyectar esta dependencia, se busca que siempre separar responsabilidades 
+    //       (error: string) => console.log(error)
+    //     // ).execute( 'https://google.com' );
+    //     ).execute( 'https://youtube.com' );
+    //     // ).execute( 'http://localhost:3000' );
+    //
+    //   }
+    // );
 
 
 

@@ -14,7 +14,7 @@ export class CheckService implements CheckServiceUseCase{
   // Inyeccion de dependencias 
   constructor(
     private readonly logRepository: LogRepository,// Con esta linea, que no es LogRepositoryImpl, nos aseguramos de que logRepository sea una instancia de cualquier repositorio que implemente la clase abstracta LogRepository. No se trabaja directamente con los datasources, sino que se acceden a ellos mediante los repositorios. RECORDAR QUE LOS CASOS DE USOS (COMO EN ESTE CASO CheckService) LLEGAN AL REPOSIORIO Y EL REPOSIORIO LLEGA AL DATASOURCE
-    private readonly successCallback: SuccessCallback,
+    private readonly successCallback: SuccessCallback,// sucessCallback sera la implementacion de una funcion que recibe un parametro llamado url de tipo string pero que dicha funcion no retorna algo pero si puede tener instrucciones
     private readonly errorCallback: ErrorCallback 
   ) {}
 

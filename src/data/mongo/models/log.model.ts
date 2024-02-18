@@ -1,26 +1,29 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
+/*
+ level: LogSeverityLevel;
+  message: string;
+  timestamp?: Date;// timestamp es opcional. Si se recibe, se establece en la instancia de LogEntity, si no se recibe, se establece en la fecha actual
+  origin: string;
+ * */
+
 
 const logSchema = new mongoose.Schema({
-  
   message: {
-    type: String,
-    required: true,
+    type: String, 
+    required: true
   },
   origin: {
-    type: String,
+    type: String
   },
   level: {
     type: String,
-    enum: ['low','medium','high'],
+    enum: ['low', 'medium', 'high'],
     default: 'low'
   },
-  createdAt: {
+  timestamp: {
     type: Date,
-    default: new Date()
+    default: new Date()// valor que toma "timestamp" en caso de no ser proporcionado.
   },
-
 });
 
-
-export const LogModel = mongoose.model('Log', logSchema );
-
+export const LogModel = mongoose.model('Log', logSchema);// Nombre de la conleccion: Log(s) (Logs)

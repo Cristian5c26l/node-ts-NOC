@@ -1,9 +1,9 @@
-import 'dotenv/config';// Leer las variables de entorno del archivo .env para que se agreguen a process.env (process.env.VARIABLE_1, process.env.VARIABLE_2, etc)
+import 'dotenv/config';// Leer las variables de entorno del archivo .env (setupTests.ts en caso de estar en ambiente de pruebas) para que se agreguen a process.env (process.env.VARIABLE_1, process.env.VARIABLE_2, etc). dotenv es inteligente y no sobrescribe las variables de entorno existentes (puede ya existir process.env.VARIABLE_1, y se quedaria tal como esta); solo carga las que aún no están definidas en process.env. 
 
 import * as env from 'env-var';// Librería para validar las variables de entorno
 
 export const envs = {
-  PORT: env.get('PORT').required().asPortNumber(), 
+  PORT: env.get('PORT').required().asPortNumber(), // lectura de process.env.PORT
   MAILER_SERVICE: env.get('MAILER_SERVICE').required().asString(),
   MAILER_EMAIL: env.get('MAILER_EMAIL').required().asEmailString(),
   MAILER_SECRET_KEY: env.get('MAILER_SECRET_KEY').required().asString(),
