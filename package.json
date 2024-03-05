@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "tsnd --respawn --clear src/app.ts",
+    "dev": "tsnd --respawn --clear --poll src/app.ts",
     "build": "rimraf ./dist && tsc",
     "start": "npm run build && node dist/app.js",
-    "docker:test": "docker-compose -f docker-compose.test.yml --env-file .env.test up -d",
+    "docker:test": "docker compose -f docker-compose.test.yml --env-file .env.test up -d",
     "test": "npm run docker:test && jest",
     "test:watch": "npm run docker:test && jest --watch",
     "test:coverage": "npm run docker:test && jest --coverage"

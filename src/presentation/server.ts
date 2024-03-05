@@ -93,6 +93,7 @@ export class Server {
     //   }
     // );
 
+    // DESCOMENTAR PARA VISUALIZAR EL FUNCIONAMIENTO DE ESTA APLICACION CON NPM RUN DEV
     // CronService.createJob(
     //   '*/5 * * * * *', 
     //   // () => console.log('Tarea ejecutada cada 5 segundos', new Date())
